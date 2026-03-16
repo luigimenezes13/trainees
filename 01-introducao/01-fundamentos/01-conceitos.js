@@ -28,11 +28,11 @@ console.log("Modulo atualizado:", moduloAtual);
 // ---------------------------------------------------------------------
 // 2) Operadores e comparacoes
 // ---------------------------------------------------------------------
-const aprovado = nota >= 7;
+const aprovado = nota >= 5;
 const mensagemAprovacao = aprovado ? "Aprovado" : "Reprovado";
 
 console.log("\n2) Operadores e comparacoes:");
-console.log("nota >= 7 ?", aprovado);
+console.log("nota >= 5 ?", aprovado);
 console.log("resultado final:", mensagemAprovacao);
 
 // ---------------------------------------------------------------------
