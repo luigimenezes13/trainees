@@ -79,5 +79,5 @@ console.log("Primeiro item:", primeiroItem<Tecnologia>(tecnologias));
 // ---------------------------------------------------------------------
 console.log("\n5) Desafio:");
 console.log(
-  "Crie um tipo para NotaFinal e uma funcao que valide se o aluno foi aprovado ou reprovado (média necessária 5)."
+  "Crie um tipo para NotaFinal e uma funcao que valide se o aluno foi aprovado ou reprovado (média necessária 5). A Nota Final de um aluno é a média geométrica ponderada entre a prova 1, a prova 2 e a atividade 1. Pesos: P1: 40%, P2: 50%, A1: 10%"
 );
