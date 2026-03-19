@@ -2,6 +2,8 @@
 
 Arquivo da aula:
 - `01-conceitos.ts`
+- Desafio:
+  - `challenge/desafio-nota-final.ts`
 
 ## 0) Instalar Node.js e tsx global no WSL (Ubuntu)
 Se voce estiver no WSL e ainda nao tiver Node.js:
@@ -40,3 +42,10 @@ npx tsx 01-conceitos.ts
 ```
 
 Pronto. O `tsx` executa TypeScript direto, sem precisar gerar `.js` manualmente.
+
+## 4) Rode o challenge
+```bash
+npx tsx challenge/desafio-nota-final.ts
+```
+
+Abra o arquivo do desafio e complete os TODOs.

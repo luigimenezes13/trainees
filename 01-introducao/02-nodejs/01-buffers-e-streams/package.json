@@ -1,0 +1,12 @@
+{
+  "name": "01-buffers-e-streams",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Exemplos minimos de Buffer e Streams no Node.js",
+  "scripts": {
+    "buffer": "node src/buffer-basico.js",
+    "contar-bytes": "node src/contador-bytes.js",
+    "copiar": "node src/copiar-arquivo.js"
+  }
+}

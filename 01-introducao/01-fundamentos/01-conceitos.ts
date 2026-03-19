@@ -73,12 +73,3 @@ function primeiroItem<T>(itens: T[]): T | undefined {
 
 console.log("\n4) Generics:");
 console.log("Primeiro item:", primeiroItem<Tecnologia>(tecnologias));
-
-// ---------------------------------------------------------------------
-// 5) Desafio da aula
-// ---------------------------------------------------------------------
-// Crie um tipo para NotaFinal e uma funcao que valide se o aluno
-// foi aprovado ou reprovado (media necessaria 5).
-// A Nota Final de um aluno e a media geometrica ponderada entre:
-// P1: 40%, P2: 50%, A1: 10%.
-// Exemplo esperado: 'Luigi, 22, introdução foi aprovado com nota 7.5.'
