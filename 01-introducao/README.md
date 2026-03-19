@@ -88,10 +88,7 @@
 
 ---
 
-## Slide 12 - Dia a dia
-
-- Decisoes tecnicas equilibram produtividade, manutencao e qualidade.
-- Tipagem forte reduz retrabalho em times e projetos em crescimento.
+## Slide 12 - node
 
 ---
 
@@ -112,28 +109,4 @@
 - `pipe()`: conecta leitura e escrita com fluxo eficiente.
 
 ---
-
-## Slide 15 - Lab 01 (buffers e streams)
-
-- Pasta da aula: `modules/01-introducao/02-nodejs/01-buffers-e-streams`.
-- Script 1: `node src/buffer-basico.js` (texto <-> bytes).
-- Script 2: `echo "Ola Node" | node src/contador-bytes.js` (stdin + chunks).
-- Script 3: `node src/copiar-arquivo.js` (copia arquivo com stream).
-
----
-
-## Slide 16 - Challenge (fixacao)
-
-- Arquivo: `challenge/desafio-contador-linhas.js`.
-- Objetivo: contar linhas recebidas via `stdin`.
-- Entrada exemplo: `printf "linha 1\nlinha 2\n" | node challenge/desafio-contador-linhas.js`.
-- Saida esperada: `Total de linhas: 2`.
-
----
-
-## Slide 17 - Resultado esperado
-
-- Entender diferenca entre caracteres e bytes.
-- Ler dados por evento (`data`/`end`) em vez de carregar tudo de uma vez.
-- Reconhecer quando usar stream para escala e eficiencia.
 
