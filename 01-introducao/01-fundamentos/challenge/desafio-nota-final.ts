@@ -17,6 +17,49 @@
 
 export {};
 
+type FinalGrade = number
+
+interface Student {
+    name: string,
+    age: number,
+    class: string,
+    T1: number,
+    T2: number,
+    A1: number,
+    final: FinalGrade
+}
+
+function calculateFinalGrade(s: Student): FinalGrade {
+    return parseFloat((s.A1 * 0.1 + s.T1 * 0.4 + s.T2 * 0.5).toFixed(2))
+}
+
+function verifyApproval(f: FinalGrade): "aprovado" | "reprovado" {
+    if(f > 0.5)
+        return "aprovado"
+    else
+        return "reprovado"
+}
+
+function describeResult(s: Student): string {
+    return `Aluno: ${s.name}
+Idade: ${s.age}
+Turma: ${s.class}
+Foi ${verifyApproval(s.final)} com notaFinal de ${s.final}`
+}
+
+let s1 : Student = {
+    name: "Gustavo",
+    age: 20,
+    class: "fundamentos-01",
+    T1: 7,
+    T2: 6.5,
+    A1: 3,
+    final: 0
+}
+s1.final = calculateFinalGrade(s1)
+
+console.log(describeResult(s1))
+
 // 1) Crie um tipo para representar a nota final (alias).
 // TODO: type NotaFinal = ...
 
