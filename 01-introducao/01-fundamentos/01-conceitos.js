@@ -80,3 +80,9 @@ console.log(
 console.log(
   "Exemplo esperado: 'Luigi esta no modulo 1 e gosta de JavaScript, TypeScript, Node.js.'"
 );
+
+function descreverAluno(nome) {
+  return `${aluno.nome} esta no modulo ${aluno.modulo} e gosta de ${aluno.tecnologiasFavoritas}.`;
+}
+
+console.log(descreverAluno("Luigi"))
