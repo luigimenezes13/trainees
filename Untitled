@@ -1,0 +1,5 @@
+function descreverAluno(aluno){
+  return '${aluno.nome} esta no modulo 1 e gosta de ${tecnologias} 
+};
+
+console.log(descreverAluno);
