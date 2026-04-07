@@ -47,7 +47,7 @@ function verificarAprovacao(notaFinal: NotaFinal): string {
 
 // 5) Monte uma frase final no formato esperado.
 // TODO: function descreverResultado(...): string { ... }
-function descreverResultado(aluno: Aluno, notaFinal: NotaFinal, status: "aprovado" | "reprovado"): string {
+function descreverResultado(aluno: Aluno, notaFinal: NotaFinal, status: string): string {
     return `${aluno.nome}, ${aluno.idade}, ${aluno.modulo} foi ${status} com nota ${notaFinal}.`;
 }
 
