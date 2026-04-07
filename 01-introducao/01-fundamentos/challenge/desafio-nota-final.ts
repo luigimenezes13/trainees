@@ -18,52 +18,48 @@
 export {};
 
 // 1) Crie um tipo para representar a nota final (alias).
-// TODO: 
-type NotaFinal = number
-
+// TODO:
+type NotaFinal = number;
 
 // 2) Crie um tipo/interface para o aluno com os campos necessarios.
 // TODO: i
-type Aprovacao = "aprovado" | "reprovado"
+type Aprovacao = "aprovado" | "reprovado";
 interface Aluno {
-    nome:string,
-    idade: number,
-    modulo: string,
-    p1:number,
-    p2:number,
-    a1:number,
-    notafinal?: NotaFinal,
-    status?: Aprovacao
+  nome: string;
+  idade: number;
+  modulo: string;
+  p1: number;
+  p2: number;
+  a1: number;
+  notafinal?: NotaFinal;
+  status?: Aprovacao;
 }
 
 // 3) Crie uma funcao que calcule a nota final com pesos.
-// TODO: 
-function calcularNotaFinal(aluno: Aluno): NotaFinal { 
-    return (aluno.p1*0.4)+(aluno.p2*0.5)+(aluno.a1*0.1)
+// TODO:
+function calcularNotaFinal(aluno: Aluno): NotaFinal {
+  return aluno.p1 * 0.4 + aluno.p2 * 0.5 + aluno.a1 * 0.1;
 }
 
 // 4) Crie uma funcao que retorne "aprovado" ou "reprovado".
-// TODO: 
-function verificarAprovacao(notafinal:NotaFinal): Aprovacao {
-    return notafinal >= 5 ? "aprovado" : "reprovado"
-}
+// TODO: function verificarAprovacao(...): "aprovado" | "reprovado" { ... }
 
 // 5) Monte uma frase final no formato esperado.
-// TODO: 
-function descreverResultado(aluno: Aluno): string { 
-    return `${aluno.nome}, ${aluno.modulo} foi ${aluno.status} com nota ${aluno.notafinal} `
+// TODO:
+function descreverResultado(aluno: Aluno): string {
+  return `${aluno.nome}, ${aluno.modulo} foi ${aluno.status} com nota ${aluno.notafinal} `;
 }
 
 // 6) Teste com um aluno exemplo.
 // TODO: criar aluno, calcular nota, verificar status e imprimir resultado.
 const aluno1: Aluno = {
-    nome: "Gustavo Zorzo",
-    idade: 20,
-    modulo: "Fundamentos",
-    p1: 10,
-    p2: 10,
-    a1: 10,
-}
-aluno1.notafinal = calcularNotaFinal(aluno1)
-aluno1.status = verificarAprovacao(aluno1.notafinal)
-console.log(descreverResultado(aluno1))
+  nome: "Gustavo Zorzo",
+  idade: 20,
+  modulo: "Fundamentos",
+  p1: 10,
+  p2: 10,
+  a1: 10,
+};
+aluno1.notafinal = calcularNotaFinal(aluno1);
+aluno1.status = verificarAprovacao(aluno1.notafinal);
+console.log(descreverResultado(aluno1));
