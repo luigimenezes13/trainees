@@ -80,3 +80,25 @@ console.log(
 console.log(
   "Exemplo esperado: 'Luigi esta no modulo 1 e gosta de JavaScript, TypeScript, Node.js.'"
 );
+
+function escreverTecnologias(tecnologiasFavoritas) {
+  res = ""
+  for (tecnologia of tecnologiasFavoritas) {
+    res += tecnologia + ", "
+  }
+  return res.slice(0, res.length - 2)
+}
+
+function descreverAluno(aluno) {
+  return `${aluno.nome} está no módulo ${aluno.modulo} e gosta de ${escreverTecnologias(aluno.tecnologiasFavoritas)}`
+}
+
+const tecs = ["JavaScript", "C++", "Java"];
+const aluno2 = {
+  nome: "Gustavo",
+  modulo: 1,
+  tecnologiasFavoritas: tecs,
+};
+
+console.log("\nResolvido: ")
+console.log(descreverAluno(aluno2))
