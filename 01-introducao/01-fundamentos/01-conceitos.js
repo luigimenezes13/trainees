@@ -77,6 +77,14 @@ console.log("\n6) Desafio:");
 console.log(
   "Crie uma funcao 'descreverAluno' que receba um objeto aluno e retorne uma frase."
 );
+
+const zorzo = {
+  nome: "Gustavo",
+  modulo: 1,
+  tecnologiasFavoritas: ["JavaScript", "TypeScript", "Node.js"],
+}
+const descreverAluno = (aluno) => `${aluno.nome} esta no modulo ${aluno.modulo} e gosta de ${aluno.tecnologiasFavoritas.join(", ")}.`
+console.log(descreverAluno(zorzo))
 console.log(
   "Exemplo esperado: 'Luigi esta no modulo 1 e gosta de JavaScript, TypeScript, Node.js.'"
 );
