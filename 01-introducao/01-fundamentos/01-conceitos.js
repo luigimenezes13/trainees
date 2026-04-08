@@ -1,83 +1,52 @@
 /**
- * Aula 01 - Conceitos Fundamentais (JavaScript)
- * Objetivo: revisar os blocos básicos da linguagem com exemplos práticos.
+ * Aula 01 - Conceitos Fundamentais (TypeScript)
+ * Objetivo: reforcar os conceitos basicos e adicionar tipagem estatica.
  *
  * Como usar:
  * 1) Leia cada bloco na ordem
- * 2) Execute no terminal com: node 01-conceitos.js
- * 3) Faça o desafio ao final
+ * 2) Compile com: tsc 01-conceitos.ts
+ * 3) Execute o JS gerado com: node 01-conceitos.js
  */
-
-console.log("\n=== Aula 01: Conceitos Fundamentais em JavaScript ===\n");
-
+console.log("\n=== Aula 01: Conceitos Fundamentais em TypeScript ===\n");
 // ---------------------------------------------------------------------
-// 1) Variaveis e tipos primitivos
+// 1) Variaveis com tipos explicitos
 // ---------------------------------------------------------------------
 const nome = "Luigi";
 const idade = 28;
 const estudante = true;
 const nota = 9.5;
 let moduloAtual = "Introducao";
-
-console.log("1) Variaveis e tipos:");
+console.log("1) Variaveis com tipos:");
 console.log({ nome, idade, estudante, nota, moduloAtual });
-
 moduloAtual = "Fundamentos";
 console.log("Modulo atualizado:", moduloAtual);
-
-// ---------------------------------------------------------------------
-// 2) Operadores e comparacoes
-// ---------------------------------------------------------------------
-const aprovado = nota >= 5;
-const mensagemAprovacao = aprovado ? "Aprovado" : "Reprovado";
-
-console.log("\n2) Operadores e comparacoes:");
-console.log("nota >= 5 ?", aprovado);
-console.log("resultado final:", mensagemAprovacao);
-
-// ---------------------------------------------------------------------
-// 3) Funcoes
-// ---------------------------------------------------------------------
-function calcularMedia(notaUm, notaDois) {
-  return (notaUm + notaDois) / 2;
-}
-
-const calcularMediaArrow = (notaUm, notaDois) => (notaUm + notaDois) / 2;
-
-console.log("\n3) Funcoes:");
-console.log("Media (funcao tradicional):", calcularMedia(8, 10));
-console.log("Media (arrow function):", calcularMediaArrow(7, 9));
-
-// ---------------------------------------------------------------------
-// 4) Arrays e objetos
-// ---------------------------------------------------------------------
 const tecnologias = ["JavaScript", "TypeScript", "Node.js"];
 const aluno = {
-  nome: "Luigi",
-  modulo: 1,
-  tecnologiasFavoritas: tecnologias,
+    nome: "Luigi",
+    modulo: 1,
+    tecnologiasFavoritas: tecnologias,
 };
-
-console.log("\n4) Arrays e objetos:");
-console.log("Primeira tecnologia:", tecnologias[0]);
+console.log("\n2) Type alias e interface:");
 console.log("Aluno:", aluno);
-
 // ---------------------------------------------------------------------
-// 5) Estruturas de repeticao
+// 3) Funcoes com tipos de entrada e saida
 // ---------------------------------------------------------------------
-console.log("\n5) Repeticao com for...of:");
-for (const tecnologia of tecnologias) {
-  console.log(`- ${tecnologia}`);
+function calcularMedia(notaUm, notaDois) {
+    return (notaUm + notaDois) / 2;
 }
-
+function descreverAluno(alunoAtual) {
+    const tecnologiasFormatadas = alunoAtual.tecnologiasFavoritas.join(", ");
+    return `${alunoAtual.nome} esta no modulo ${alunoAtual.modulo} e gosta de ${tecnologiasFormatadas}.`;
+}
+console.log("\n3) Funcoes tipadas:");
+console.log("Media:", calcularMedia(8, 10));
+console.log("Descricao:", descreverAluno(aluno));
 // ---------------------------------------------------------------------
-// 6) Desafio da aula
+// 4) Generics basicos
 // ---------------------------------------------------------------------
-console.log("\n6) Desafio:");
-console.log(
-  "Crie uma funcao 'descreverAluno' que receba um objeto aluno e retorne uma frase."
-);
-console.log(
-  "Exemplo esperado: 'Luigi esta no modulo 1 e gosta de JavaScript, TypeScript, Node.js.'"
-);
-
+function primeiroItem(itens) {
+    return itens[0];
+}
+console.log("\n4) Generics:");
+console.log("Primeiro item:", primeiroItem(tecnologias));
+export {};
