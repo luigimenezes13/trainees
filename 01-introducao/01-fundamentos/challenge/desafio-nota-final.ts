@@ -17,6 +17,48 @@
 
 export {};
 
+
+type NotaFinal = number
+
+interface Aluno{
+    nome: String,
+    idade: number,
+    notaP1: number,
+    notaP2: number,
+    notaA1: number
+    notaFinal?: number
+}
+
+function calcularNotaFinal({notaP1,notaP2,notaA1}:Aluno):NotaFinal {   
+    return 0.4 * notaP1 + 0.5 * notaP2 + 0.1 * notaA1
+}
+
+function verificarAprovação(NotaFinal:number): "aprovado" | "reprovado"{
+    return NotaFinal >= 5 ? "aprovado" : "reprovado"
+}
+
+function descreverResultado(aluno: Aluno): string{
+    if(aluno.notaFinal == undefined){
+        calcularNotaFinal(aluno)
+    }
+    if(aluno.notaFinal != undefined){
+        return `${aluno.nome}, ${aluno.idade}, foi ${verificarAprovação(aluno.notaFinal)} com nota ${aluno.notaFinal.toFixed(2)}`
+    }
+    return `Não foi possível fazer nota final de ${aluno.nome}`
+}
+
+const aluno1 : Aluno = {
+    nome: "Luigi",
+    idade: 22,
+    notaP1: 5,
+    notaP2: 5,
+    notaA1: 5,
+    
+}
+
+aluno1.notaFinal = calcularNotaFinal(aluno1)
+console.log(descreverResultado(aluno1))
+
 // 1) Crie um tipo para representar a nota final (alias).
 // TODO: type NotaFinal = ...
 
