@@ -42,7 +42,14 @@ function calcularNotaFinal(aluno: Aluno): NotaFinal {
 }
 
 // 4) Crie uma funcao que retorne "aprovado" ou "reprovado".
+<<<<<<< HEAD
 // TODO: function verificarAprovacao(...): "aprovado" | "reprovado" { ... }
+=======
+// TODO: 
+function verificarAprovacao(notafinal:NotaFinal): Aprovacao {
+    return notafinal >= 5 ? "aprovado" : "reprovado"
+}
+>>>>>>> 7328f44 (fix: ajuste de commits bugados)
 
 // 5) Monte uma frase final no formato esperado.
 // TODO:
