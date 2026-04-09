@@ -1,3 +1,1 @@
-Este e o arquivo de entrada para o exemplo de stream.
-Cada linha ajuda a visualizar como os bytes sao lidos em chunks.
-Node.js le dados em partes para manter eficiencia de memoria.
+AAAAAAAAAAAAAAAAAAAAAAAAAAA

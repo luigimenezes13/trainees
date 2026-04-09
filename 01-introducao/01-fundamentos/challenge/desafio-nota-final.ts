@@ -35,7 +35,6 @@ interface Aluno{
 // TODO: function calcularNotaFinal(...): NotaFinal { ... }
 function calcularNotaFinal(alunoAtual: Aluno): NotaFinal {
     return (alunoAtual.p1*0.4 + alunoAtual.p2*0.5 + alunoAtual.a1*0.1)
-    
 }
 
 // 4) Crie uma funcao que retorne "aprovado" ou "reprovado".
@@ -58,7 +57,6 @@ function descreverResultado(alunoAtual: Aluno){
 
 // 6) Teste com um aluno exemplo.
 // TODO: criar aluno, calcular nota, verificar status e imprimir resultado.
-
 const newAluno: Aluno = {
     nome: "Vicente",
     idade: 18,
