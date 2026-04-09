@@ -42,7 +42,7 @@ function calcularNotaFinal(notap1:number, notap2:number, notaa1:number):NotaFina
 // TODO: function calcularNotaFinal(...): NotaFinal { ... }
 
 
-function verificarAprovacao(nota:notaFinal) : string {
+function verificarAprovacao(nota:NotaFinal) : string {
     const aprovado = nota >= 5;
     const mensagemAprovacao = aprovado ? "Aprovado" : "Reprovado";
     return mensagemAprovacao;
