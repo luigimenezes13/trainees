@@ -44,7 +44,7 @@ function calcularNotaFinal(aluno: Aluno): NotaFinal {
 
 // 4) Crie uma funcao que retorne "aprovado" ou "reprovado".
 // TODO: 
-function verificarAprovacao(notafinal:NotaFinal): "aprovado" | "reprovado" {
+function verificarAprovacao(notafinal:NotaFinal): Aprovacao {
     return notafinal >= 5 ? "aprovado" : "reprovado"
 }
 
