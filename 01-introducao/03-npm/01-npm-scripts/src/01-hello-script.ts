@@ -7,3 +7,4 @@
  */
 
 console.log('Hello da aula 03 de npm scripts com TypeScript!');
+
