@@ -26,6 +26,7 @@ console.log('Total de bytes:', bufferDaMensagem.length);
 
 // 5.1) Exemplo de tamanho do buffer em bytes, KB, MB, etc.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 const mensagemDaReuniao = 'o HDMI não funciona'
 const bufferDaMensagemDaReuniao = Buffer.from(mensagemDaReuniao, 'utf8')
@@ -34,6 +35,8 @@ console.log('Tamanho do buffer em bytes:', bufferDaMensagemDaReuniao.length);
 console.log('Tamanho do buffer em KB:', bufferDaMensagemDaReuniao.length / 1024);
 console.log('Tamanho do buffer em MB:', bufferDaMensagemDaReuniao.length / 1024 / 1024);
 =======
+=======
+>>>>>>> e50cecb (feat: challenge npm)
 const mensagemReuniao = "O HDMI não funciona"
 const bufferDaMensagemReuniao = Buffer.from(mensagemReuniao,"utf8")
 
@@ -41,6 +44,9 @@ const bufferDaMensagemReuniao = Buffer.from(mensagemReuniao,"utf8")
 console.log('Tamanho do buffer em bytes:', bufferDaMensagemReuniao.length);
 console.log('Tamanho do buffer em KB:', bufferDaMensagemReuniao.length / 1024);
 console.log('Tamanho do buffer em MB:', bufferDaMensagemReuniao.length / 1024 / 1024);
+<<<<<<< HEAD
+>>>>>>> e50cecb (feat: challenge npm)
+=======
 >>>>>>> e50cecb (feat: challenge npm)
 
 // 6) Convertendo de volta para string.
