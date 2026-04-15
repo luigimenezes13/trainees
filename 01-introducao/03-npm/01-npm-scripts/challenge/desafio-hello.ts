@@ -12,5 +12,5 @@ import chalk from 'chalk';
 // 2) Use chalk para colorir essa mensagem.
 // 3) Imprima no console.
 
-const mensagem: string = chalk.green('TODO: personalize a mensagem do hello.');
+const mensagem: string = chalk.red('Hello World');
 console.log(mensagem);
