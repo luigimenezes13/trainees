@@ -25,9 +25,13 @@ console.log('Buffer bruto:', bufferDaMensagem);
 console.log('Total de bytes:', bufferDaMensagem.length);
 
 // 5.1) Exemplo de tamanho do buffer em bytes, KB, MB, etc.
-console.log('Tamanho do buffer em bytes:', bufferVazioDe8Bytes.length);
-console.log('Tamanho do buffer em KB:', bufferVazioDe8Bytes.length / 1024);
-console.log('Tamanho do buffer em MB:', bufferVazioDe8Bytes.length / 1024 / 1024);
+const mensagemReuniao = "O HDMI não funciona"
+const bufferDaMensagemReuniao = Buffer.from(mensagemReuniao,"utf8")
+
+
+console.log('Tamanho do buffer em bytes:', bufferDaMensagemReuniao.length);
+console.log('Tamanho do buffer em KB:', bufferDaMensagemReuniao.length / 1024);
+console.log('Tamanho do buffer em MB:', bufferDaMensagemReuniao.length / 1024 / 1024);
 
 // 6) Convertendo de volta para string.
 //    Aqui voltamos do formato binario para texto.
