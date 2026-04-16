@@ -36,12 +36,107 @@ import { createServer } from "node:http";
 
 const PORT = 3000;
 
+function lerBody(request: IncomingMessage): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+
+    request.on("data", (chunk: Buffer) => {
+      chunks.push(chunk);
+    });
+
+    request.on("end", () => {
+      resolve(Buffer.concat(chunks).toString("utf-8"));
+    });
+
+    request.on("error", reject);
+  });
+}
+
+
+interface Astronaut {
+    name : string,
+    role : string,
+    nationality: string
+}
+
+const astronautList : Astronaut[] = 
+[
+  {
+    name: "joao",
+    role: "chefe",
+    nationality: "brasileiro"
+
+  },
+  {
+    name: "jorge",
+    role: "assistente",
+    nationality: "alemão"
+  },
+  {
+    name: "julia",
+    role: "administrador",
+    nationality: "australiana",
+  }
+]
+
 // Implemente aqui
 
 const server = createServer(async (request, response) => {
   // TODO: implemente o roteador conforme os requisitos acima
-  response.writeHead(501, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ erro: "Ainda nao implementado" }));
+
+  const { method, url,headers} = request
+  if(url == '/health'){
+    if(method == 'GET'){
+      response.writeHead(200,{ "Content-type": "application/json"})
+      response.end(JSON.stringify({ status: "ok"}))
+      return
+    }
+    response.writeHead(405,{ "Content-type": "application/json"})
+    response.end(JSON.stringify({error: "metodo não suportado para essa rota"} ))
+    return
+  }
+  if(url == '/astronautas'){
+  if(method == 'GET' && url == '/astronautas'){
+    response.writeHead(200,{"Content-type": "application/json"})
+    response.end(JSON.stringify(astronautList))
+    return
+  }
+
+  if(method == 'POST' && url == '/astronautas'){
+    const contentType = headers["content-type"]
+    if(!contentType?.includes("application/json")){
+      response.writeHead(415, {"Content-type" : "application/json"})
+      response.end(JSON.stringify({erro: "content type precisa ser application/json"}))
+      return
+    }
+    const bodyText = await lerBody(request)
+    try{
+      const data = JSON.parse(bodyText)
+      response.writeHead(201, {"Content-type" : "application/json"})
+      response.end(JSON.stringify({
+        message: "dados recebidos com sucesso",
+        data
+      }))
+
+    }catch{
+      response.writeHead(400, {"Content-type" : "application/json"})
+      response.end(JSON.stringify({erro: "JSON inválido"}))
+      
+    }
+    return
+
+  }
+  response.writeHead(405,{ "Content-type": "application/json"})
+  response.end(JSON.stringify({error: "metodo não suportado para essa rota"} ))
+  return
+}
+
+  response.writeHead(404, { "Content-Type": "application/json" });
+  response.end(JSON.stringify({ erro: "Rota não encontrada" }));
+
+    
+
+  
 });
 
 server.listen(PORT, () => {
