@@ -14,3 +14,5 @@ import chalk from 'chalk';
 
 const mensagem: string = chalk.green('TODO: personalize a mensagem do hello.');
 console.log(mensagem);
+console.log('\n');
+console.log(chalk.bgBlue('Hello World'));

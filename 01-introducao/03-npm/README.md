@@ -45,9 +45,9 @@ Edite a secao `scripts` para ficar assim:
 ```json
 {
   "scripts": {
-    "exemplo:hello": "tsx src/01-hello-script.ts",
-    "exemplo:args": "tsx src/02-args-script.ts",
-    "hello": "tsx challenge/desafio-hello.ts",
+    "hello": "tsx src/01-hello-script.ts",
+    "args": "tsx src/02-args-script.ts",
+    "hello1": "tsx challenge/desafio-hello.ts",
     "calc": "tsx challenge/desafio-calc.ts"
   }
 }
