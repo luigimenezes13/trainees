@@ -32,16 +32,114 @@
  *   curl http://localhost:3000/rota-qualquer
  */
 
-import { createServer } from "node:http";
+import { createServer, type IncomingMessage } from "node:http";
 
 const PORT = 3000;
 
 // Implemente aqui
 
+function lerBody(request: IncomingMessage): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+
+    request.on("data", (chunk: Buffer) => {
+      chunks.push(chunk);
+    });
+
+    request.on("end", () => {
+      resolve(Buffer.concat(chunks).toString("utf-8"));
+    });
+
+    request.on("error", reject);
+  });
+}
+
 const server = createServer(async (request, response) => {
   // TODO: implemente o roteador conforme os requisitos acima
-  response.writeHead(501, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ erro: "Ainda nao implementado" }));
+  const { method, url, headers } = request;
+  const contentType = headers["content-type"];
+
+  if (url === "health") {
+    if (method === "GET") {
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(
+        JSON.stringify({
+          status: "OK",
+        }),
+      );
+    }
+    response.writeHead(405, { "Content-Type": "application/json" });
+    response.end(
+      JSON.stringify({
+        erro: "Método não permitido",
+      }),
+    );
+  }
+  if (url === "astronautas") {
+    if (method === "GET") {
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(
+        JSON.stringify([
+          {
+            nome: "Marcio",
+            funcao: "Astronauta General",
+            nacionalidade: "Brasil",
+          },
+          {
+            nome: "Gustavo",
+            funcao: "Astronauta Estagiario",
+            nacionalidade: "Brasil",
+          },
+          {
+            nome: "John",
+            funcao: "Astronauta Senior",
+            nacionalidade: "Estados Unidos",
+          },
+        ]),
+      );
+    }
+    if (method === "POST") {
+      // Valida que o cliente esta enviando JSON
+      if (!contentType?.includes("application/json")) {
+        response.writeHead(415, { "Content-Type": "application/json" });
+        response.end(
+          JSON.stringify({
+            erro: "Content-Type deve ser application/json",
+            recebido: contentType,
+          }),
+        );
+        return;
+      }
+    }
+
+    const bodyTexto = await lerBody(request);
+
+    try {
+      const dados = JSON.parse(bodyTexto);
+
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(
+        JSON.stringify({
+          mensagem: "Dados recebidos com sucesso",
+          dados,
+          recebidoEm: new Date().toISOString(),
+        }),
+      );
+    } catch {
+      response.writeHead(415, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ erro: "JSON invalido" }));
+    }
+
+    response.writeHead(405, { "Content-Type": "application/json" });
+    response.end(
+      JSON.stringify({
+        erro: "Método não permitido",
+      }),
+    );
+  }
+
+  response.writeHead(404, { "Content-Type": "application/json" });
+  response.end(JSON.stringify({ erro: "Rota não encontrada" }));
 });
 
 server.listen(PORT, () => {
