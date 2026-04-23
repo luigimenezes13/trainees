@@ -2,6 +2,8 @@ import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { astronautRoutes } from "./modules/astronauts/astronaut.routes.js";
+import { suppliesRoutes } from "./modules/supplies/supply.routes.js";
+import { missionRoutes } from "./modules/missions/mission.routes.js";
 
 const app = Fastify({ logger: true });
 const port = Number(process.env.PORT ?? 3333);
@@ -16,6 +18,8 @@ app.get("/health", async (_request, reply) => {
 });
 
 await app.register(astronautRoutes);
+await app.register(suppliesRoutes);
+await app.register(missionRoutes);
 
 app.listen({ port, host: "0.0.0.0" }).catch((error) => {
   app.log.error(error);

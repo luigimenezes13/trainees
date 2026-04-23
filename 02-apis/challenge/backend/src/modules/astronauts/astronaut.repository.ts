@@ -2,7 +2,8 @@ import { pool } from "../../database/client.js";
 import { resolvePagination, totalPages } from "../../shared/pagination.js";
 
 import type { AstronautRow } from "../../database/types.js";
-import type { CreateAstronautData, FindAstronautsParams, UpdateAstronautData } from "./astronaut.schema.js";
+import { astronautId, type CreateAstronautData, type FindAstronautsParams, type UpdateAstronautData } from "./astronaut.schema.js";
+import { NaoEncontradoErro } from "../../errors.js";
 
 export interface AstronautsResult {
   data: AstronautRow[];
@@ -43,7 +44,7 @@ export async function findAstronauts(params: FindAstronautsParams): Promise<Astr
 
 export async function createAstronaut(data: CreateAstronautData): Promise<AstronautRow> {
   const now = new Date();
-
+  
   const { rows } = await pool.query<AstronautRow>(
     `INSERT INTO astronauts (name, role, nationality, status, created_at, updated_at)
      VALUES ($1, $2, $3, 'active', $4, $4)
@@ -57,11 +58,56 @@ export async function createAstronaut(data: CreateAstronautData): Promise<Astron
 // TODO: implementar updateAstronaut
 export async function updateAstronaut(id: number, data: UpdateAstronautData): Promise<AstronautRow | null> {
   // Implemente aqui
-  throw new Error("Not implemented");
+  const now = new Date()
+  const updatedData = {...data,updated_at: now}
+  const fields  = Object.keys(updatedData).map((field,index)=>{
+    return `${field} = $${index+2}`
+  } ).join(", ")
+  const values = Object.values(updatedData)
+  const {rows} = await pool.query<AstronautRow>(
+    `
+      UPDATE astronauts
+      SET ${fields}
+      WHERE id = $1
+      RETURNING *
+    `,
+    [id,...values]
+  )
+  if(rows.length <= 0){
+    throw new NaoEncontradoErro("Astronauta",id)
+  }
+  return rows[0]
+  //throw new Error("Not implemented");
 }
 
+export async function  findAstronautById(id:number) {
+  const {rows} = await pool.query<AstronautRow>(
+    `
+      SELECT * FROM astronauts WHERE id = $1
+    `,
+    [id]
+  )
+  if(rows.length == 0){
+    throw new NaoEncontradoErro("Astronauta",id)
+  }
+  return rows[0]
+}
 // TODO: implementar softDeleteAstronaut
 export async function softDeleteAstronaut(id: number): Promise<boolean> {
   // Implemente aqui
-  throw new Error("Not implemented");
+  const now = new Date()
+  const {rows} = await pool.query<AstronautRow>(
+    `
+     UPDATE astronauts
+     SET deleted_at = $1 , status = 'inactive'
+     WHERE id = $2
+     RETURNING *
+    `,
+    [now, id]
+  )
+  if (rows.length <= 0){
+    throw new NaoEncontradoErro("Astronauta",id)
+  }
+  console.log("passou")
+  return true
 }

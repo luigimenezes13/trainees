@@ -1,0 +1,21 @@
+{
+  "name": "03-rest-crud",
+  "version": "1.0.0",
+  "description": "- Persistir dados em banco de dados real (SQLite).\r - Implementar CRUD completo com SQL.\r - Aplicar paginacao e filtros na listagem.\r - Entender a separacao entre rota, logica e acesso a dados.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^12.9.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

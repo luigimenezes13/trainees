@@ -9,6 +9,21 @@ CREATE TABLE astronauts (
   updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE supplies(
+  id SERIAL PRIMARY KEY,
+  item VARCHAR (50),
+  category VARCHAR (50),
+  stock INT,
+  quantity FLOAT
+);
+
+CREATE TABLE missions(
+  id SERIAL PRIMARY KEY,
+  astronaut_id INT,
+  supply_id INT,
+  FOREIGN KEY (astronaut_id) REFERENCES astronauts(id),
+  FOREIGN KEY (supply_id) REFERENCES supplies(id)
+);
 INSERT INTO astronauts (name, role, nationality, status) VALUES
   ('Valentina Cruz', 'Commander', 'Brazilian', 'active'),
   ('Elena Markov', 'Pilot', 'Russian', 'active'),
