@@ -28,6 +28,8 @@
  *   curl -X POST http://localhost:3000/astronautas \
  *     -H "Content-Type: application/json" \
  *     -d '{"nome": "Luigi", "funcao": "Engineer"}'
+ * curl -X POST http://localhost:3000/astronautas -H "Content-Type: application/json" -d "{\"nome\": \"Luigi\", \"funcao\": \"Engineer\"}"
+ * 
  *   curl -X PUT http://localhost:3000/astronautas
  *   curl http://localhost:3000/rota-qualquer
  */

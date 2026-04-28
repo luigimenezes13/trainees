@@ -11,10 +11,16 @@
  *   curl -X POST http://localhost:3000/astronautas \
  *     -H "Content-Type: application/json" \
  *     -d '{"nome": "Valentina Cruz", "funcao": "Commander", "nacionalidade": "Brazilian"}'
+ * 
+ * curl -X POST http://localhost:3000/astronautas -H "Content-Type: application/json" -d "{\"nome\": \"Valentina\", \"funcao\": \"Commander\", \"nacionalidade\": \"Brazilian\"}"
+ * 
  *   curl http://localhost:3000/astronautas/1
  *   curl -X PUT http://localhost:3000/astronautas/1 \
  *     -H "Content-Type: application/json" \
  *     -d '{"funcao": "Senior Commander"}'
+ * 
+ * curl -X PUT http://localhost:3000/astronautas/1 -H "Content-Type: application/json" -d "{\"funcao\": \"Senior Commander\"}"
+ * 
  *   curl -X DELETE http://localhost:3000/astronautas/1
  */
 

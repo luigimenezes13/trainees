@@ -11,10 +11,18 @@
  *     -H "Content-Type: application/json" \
  *     -d '{"nome": "Valentina", "funcao": "Commander"}'
  *
+ * curl -X POST http://localhost:3000/echo -H "Content-Type: application/json" -d "{\"nome\": \"Valentina\", \"funcao\": \"Commander\"}"
+ * 
  *   curl -X POST http://localhost:3000/echo \
  *     -H "Content-Type: text/plain" \
  *     -d 'isso nao e JSON'
+ * 
+ * curl -X POST http://localhost:3000/echo -H "Content-Type: text/plain" -d "Isso nao e um JSON"
+ * 
+ * curl -X POST http://localhost:3000/echo -H "Content-Type: application/json" -d "{\"nome\": \"Erro aqui}"
  */
+
+
 
 import { createServer, type IncomingMessage } from "node:http";
 
