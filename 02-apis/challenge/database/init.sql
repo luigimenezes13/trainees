@@ -30,3 +30,36 @@ INSERT INTO astronauts (name, role, nationality, status) VALUES
   ('Mateo Rojas', 'Technician', 'Chilean', 'active'),
   ('Zoe Walker', 'Navigator', 'Australian', 'active'),
   ('Anika Berg', 'Communications', 'Swedish', 'active');
+
+CREATE TABLE supplies (
+  id SERIAL PRIMARY KEY,
+  item VARCHAR(255) NOT NULL,
+  categoria VARCHAR(255) NOT NULL,
+  estoque INTEGER NOT NULL
+);
+
+INSERT INTO supplies (item, categoria, estoque) VALUES
+  ('Oxigenio medicinal', 'Medico', 120),
+  ('Agua potavel', 'Alimentacao', 2400),
+  ('Racao liofilizada', 'Alimentacao', 800),
+  ('Kit medico basico', 'Medico', 45),
+  ('Combustivel de reserva', 'Propulsao', 12),
+  ('Pecas de reposicao para traje EVA', 'Equipamento', 60),
+  ('Baterias de alta capacidade', 'Energia', 200),
+  ('Ferramentas de manutencao', 'Equipamento', 35),
+  ('Sementes hidroponicas', 'Agricultura', 150),
+  ('Filtros de ar', 'Suporte a vida', 90);
+
+CREATE TABLE missions (
+  id SERIAL PRIMARY KEY,
+  titulo VARCHAR(255) NOT NULL,
+  astronauta_id INTEGER NOT NULL REFERENCES astronauts (id),
+  supply_id INTEGER NOT NULL REFERENCES supplies (id)
+);
+
+INSERT INTO missions (titulo, astronauta_id, supply_id) VALUES
+  ('Reposicao de O2 na Cupula', 1, 1),
+  ('Rota de abastecimento orbital', 2, 5),
+  ('Manutencao do modulo de servico', 3, 8),
+  ('Experimento hidroponico M-04', 4, 9),
+  ('Ciclo de vida suportado - 90 dias', 5, 3);

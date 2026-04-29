@@ -10,3 +10,17 @@ export interface AstronautRow {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface SupplyRow {
+  id: number;
+  item: string;
+  categoria: string;
+  estoque: number;
+}
+
+export interface MissionRow {
+  id: number;
+  titulo: string;
+  astronauta_id: number;
+  supply_id: number;
+}

@@ -3,6 +3,7 @@ import { resolvePagination, totalPages } from "../../shared/pagination.js";
 
 import type { AstronautRow } from "../../database/types.js";
 import type { CreateAstronautData, FindAstronautsParams, UpdateAstronautData } from "./astronaut.schema.js";
+import { Error404 } from "../../Error404.js"
 
 export interface AstronautsResult {
   data: AstronautRow[];
@@ -41,6 +42,20 @@ export async function findAstronauts(params: FindAstronautsParams): Promise<Astr
   };
 }
 
+export async function findAstronautById(id: number): Promise<AstronautRow>{
+  const {rows} = await pool.query<AstronautRow>(
+    `SELECT * FROM astronauts
+     WHERE id = $1`,
+    [id]
+  );
+
+  if (rows.length <= 0)
+    throw new Error404("Astronauta", id)
+
+  return rows[0];
+}
+
+
 export async function createAstronaut(data: CreateAstronautData): Promise<AstronautRow> {
   const now = new Date();
 
@@ -56,12 +71,40 @@ export async function createAstronaut(data: CreateAstronautData): Promise<Astron
 
 // TODO: implementar updateAstronaut
 export async function updateAstronaut(id: number, data: UpdateAstronautData): Promise<AstronautRow | null> {
-  // Implemente aqui
-  throw new Error("Not implemented");
+  const now = new Date();
+  const { rows } = await pool.query<AstronautRow>(
+    `UPDATE astronauts SET 
+     name = $1, 
+     role = $2, 
+     nationality = $3, 
+     status = 'active', 
+     updated_at = $4
+     WHERE id = $5
+     RETURNING *`,
+    [data.name, data.role, data.nationality, now, id]
+  );
+
+  if (rows.length <= 0)
+    throw new Error404("Astronauta", id)
+
+  return rows[0];
 }
 
 // TODO: implementar softDeleteAstronaut
 export async function softDeleteAstronaut(id: number): Promise<boolean> {
-  // Implemente aqui
-  throw new Error("Not implemented");
+  const now = new Date();
+  const { rows } = await pool.query<AstronautRow>(
+    `UPDATE astronauts 
+     SET updated_at = $1,
+     status = 'inactive',
+     deleted_at = $2
+     WHERE id = $3
+     RETURNING *;`,
+    [now, now, id]
+  );
+
+  if (rows.length <= 0)
+    throw new Error404("Astronauta", id)
+
+  return rows[0];
 }
