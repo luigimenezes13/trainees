@@ -1,0 +1,110 @@
+import { pool } from "../../infra/database/client.js";
+import { resolvePagination, totalPages } from "../../shared/pagination.js";
+
+import type { AstronautRow } from "../../infra/database/types.js";
+import type { CreateAstronautData, FindAstronautsParams, UpdateAstronautData } from "./astronaut.schema.js";
+import { Error404 } from "../../Error404.js"
+
+export interface AstronautsResult {
+  data: AstronautRow[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export async function findAstronauts(params: FindAstronautsParams): Promise<AstronautsResult> {
+  const { page, limit, offset } = resolvePagination({ page: params.page, limit: params.limit, maxLimit: 50 });
+
+  const conditions = ["deleted_at IS NULL"];
+  const values: unknown[] = [];
+
+  if (params.search?.trim()) {
+    values.push(`%${params.search.trim()}%`);
+    conditions.push(`name ILIKE $${values.length}`);
+  }
+
+  const where = `WHERE ${conditions.join(" AND ")}`;
+
+  const countResult = await pool.query<{ count: string }>(`SELECT COUNT(id) AS count FROM astronauts ${where}`, values);
+  const total = Number(countResult.rows[0].count);
+
+  const dataResult = await pool.query<AstronautRow>(
+    `SELECT * FROM astronauts ${where} ORDER BY created_at DESC LIMIT $${values.length + 1} OFFSET $${values.length + 2}`,
+    [...values, limit, offset]
+  );
+
+  return {
+    data: dataResult.rows,
+    pagination: { total, page, limit, totalPages: totalPages(total, limit) }
+  };
+}
+
+export async function findAstronautById(id: number): Promise<AstronautRow>{
+  const {rows} = await pool.query<AstronautRow>(
+    `SELECT * FROM astronauts
+     WHERE id = $1`,
+    [id]
+  );
+
+  if (rows.length <= 0)
+    throw new Error404("Astronauta", id)
+
+  return rows[0];
+}
+
+
+export async function createAstronaut(data: CreateAstronautData): Promise<AstronautRow> {
+  const now = new Date();
+
+  const { rows } = await pool.query<AstronautRow>(
+    `INSERT INTO astronauts (name, role, nationality, status, created_at, updated_at)
+     VALUES ($1, $2, $3, 'active', $4, $4)
+     RETURNING *`,
+    [data.name, data.role, data.nationality, now]
+  );
+
+  return rows[0];
+}
+
+// TODO: implementar updateAstronaut
+export async function updateAstronaut(id: number, data: UpdateAstronautData): Promise<AstronautRow | null> {
+  const now = new Date();
+  const { rows } = await pool.query<AstronautRow>(
+    `UPDATE astronauts SET 
+     name = $1, 
+     role = $2, 
+     nationality = $3, 
+     status = 'active', 
+     updated_at = $4
+     WHERE id = $5
+     RETURNING *`,
+    [data.name, data.role, data.nationality, now, id]
+  );
+
+  if (rows.length <= 0)
+    throw new Error404("Astronauta", id)
+
+  return rows[0];
+}
+
+// TODO: implementar softDeleteAstronaut
+export async function softDeleteAstronaut(id: number): Promise<boolean> {
+  const now = new Date();
+  const { rows } = await pool.query<AstronautRow>(
+    `UPDATE astronauts 
+     SET updated_at = $1,
+     status = 'inactive',
+     deleted_at = $2
+     WHERE id = $3
+     RETURNING *;`,
+    [now, now, id]
+  );
+
+  if (rows.length <= 0)
+    throw new Error404("Astronauta", id)
+
+  return rows[0];
+}
