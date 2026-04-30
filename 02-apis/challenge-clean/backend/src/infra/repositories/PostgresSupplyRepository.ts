@@ -1,13 +1,13 @@
-import { pool } from "../../database/client.js"
-import type { SupplyRow} from "../../database/types.js";
+import { pool } from "../database/client.js"
+import type { SupplyRow} from "../database/types.js";
 import { SupplyMapper } from "../mappers/SupplyMapper.js";
-import { NaoEncontradoErro } from "../../errors.js";
+
 import { Supply } from "../../domain/entities/Supply.js";
-import { SupplyRepositoy } from "../../domain/repositories/supplyRepository.js";
+import { SupplyRepository } from "../../domain/repositories/supplyRepository.js";
 
-export class PostigresSupplyRepositoy implements SupplyRepositoy{
+export class PostigresSupplyRepository implements SupplyRepository{
 
-async findById(id: number): Promise<Supply> {
+async findById(id: string): Promise<Supply | null> {
     const { rows } = await pool.query<SupplyRow>(
         `
         SELECT * FROM supplies 
@@ -16,29 +16,30 @@ async findById(id: number): Promise<Supply> {
         [id]
     )
     if(rows.length <= 0){
-        throw new NaoEncontradoErro("Suprimento",id)
+        return null
     }
     return SupplyMapper.toDomain(rows[0])
 }
 
 async  create(data: Supply): Promise<Supply> {
   const { rows } = await pool.query<SupplyRow>(
-    `INSERT INTO supplies (item, category, stock, quantity)
-     VALUES ($1, $2, $3,$4)
+    `INSERT INTO supplies (id,item, category, stock, quantity)
+     VALUES ($1, $2, $3,$4,$5)
      RETURNING *`,
-    [ data.props.item, data.props.category,data.props.stock,data.props.quantity]
+    [ data.id.value,data.props.item, data.props.category,data.props.stock,data.props.quantity]
   );
   return SupplyMapper.toDomain(rows[0]);
 }
 
 // TODO: implementar updateAstronaut
-async  update(data: Supply,id: number): Promise<Supply | null> {
+async  update(data: Supply,id: string): Promise<Supply | null> {
   // Implemente aqui
-  const fields = Object.keys(data).map((field,index) =>
+  const fields = Object.keys(data.props).map((field,index) =>
     {
       return `${field} = $${index+2}`
     }).join(", ")
-  const values = Object.values(data)
+  console.log(fields)
+  const values = Object.values(data.props)
   const {rows} = await pool.query<SupplyRow>(
     `
       UPDATE supplies
@@ -49,7 +50,7 @@ async  update(data: Supply,id: number): Promise<Supply | null> {
     [id,...values]
   )
   if(rows.length <= 0){
-    throw new NaoEncontradoErro("Suprimento",id)
+    return null
   }
   return SupplyMapper.toDomain(rows[0])
   //throw new Error("Not implemented");
@@ -65,7 +66,7 @@ async  getAll() {
   return supplies
 }
 // TODO: implementar softDeleteAstronaut
-async delete(id: number): Promise<boolean> {
+async delete(id: string): Promise<boolean> {
   // Implemente aqui
   const {rows} = await pool.query<SupplyRow>(
     `
@@ -77,7 +78,7 @@ async delete(id: number): Promise<boolean> {
   )
   
   if (rows.length == 0){
-    throw new NaoEncontradoErro("Suprimento",id)
+    return false
   }
   return true
 }

@@ -1,9 +1,9 @@
 
 import { Supply } from "../entities/Supply.js"
-export interface SupplyRepositoy{
+export interface SupplyRepository{
     create(data: Supply): Promise<Supply>
-    update(data: Supply,id: number): Promise<Supply | null>
+    update(data: Supply,id: string): Promise<Supply>
     getAll(): Promise<Supply[]>
-    findById(id: number): Promise<Supply>
-    delete(id: number): Promise<boolean>
+    findById(id: string): Promise<Supply | null>
+    delete(id: string): Promise<boolean>
 }

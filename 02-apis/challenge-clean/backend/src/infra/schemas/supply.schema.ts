@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const supplyId = z.coerce.number().int().positive();
+export const supplyId = z.uuid();
 
 /*
 export const findAstronautsQuery = z.object({

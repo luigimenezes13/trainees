@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const astronautId = z.coerce.number().int().positive();
+export const astronautId = z.coerce.string();
 
 export const findAstronautsQuery = z.object({
   search: z.string().trim().optional(),

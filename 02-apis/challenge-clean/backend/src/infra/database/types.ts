@@ -1,7 +1,7 @@
 export type AstronautStatus = "active" | "inactive";
 
 export interface AstronautRow {
-  id: number;
+  id: string;
   name: string;
   role: string;
   nationality: string;
@@ -12,15 +12,14 @@ export interface AstronautRow {
 }
 
 export interface SupplyRow{
-  id: number,
+  id: string,
   item: string,
   category: string,
   stock: number,
   quantity:number
 }
 
-export interface MissionRow{
-  id: number,
-  astronautId: number,
-  supplyId: number
+export interface MissionRow {
+  id: string;
+  created_at: Date;
 }

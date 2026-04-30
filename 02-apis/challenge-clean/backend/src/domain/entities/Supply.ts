@@ -1,12 +1,15 @@
+import { Entity } from "../value-objects/Entity.js"
+
 
 type SupplyProps = {
-    id?: number
     item: String,
     category: String,
     stock: number,
     quantity: number
 }
 
-export class Supply{
-    constructor(public props: SupplyProps){}
+export class Supply extends Entity<SupplyProps>{
+    constructor(props: SupplyProps,id?: string){
+        super(props,id)
+    }
 }

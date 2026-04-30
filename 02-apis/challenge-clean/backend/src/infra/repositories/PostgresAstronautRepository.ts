@@ -1,15 +1,15 @@
 
-import { pool } from "../../database/client.js";
-import { resolvePagination, totalPages } from "../../shared/pagination.js";
+import { pool } from "../database/client.js";
+import { resolvePagination, totalPages } from "../utils/pagination.js";
 
-import type { AstronautRow } from "../../database/types.js";
+import type { AstronautRow } from "../database/types.js";
 import { AstronautRepository } from "../../domain/repositories/astronautRepository.js";
 import { Astronaut } from "../../domain/entities/Astronaut.js";
 import type { Query } from "../../domain/value-objects/Query.js";
 import { AstronautsResult } from "../../domain/repositories/astronautRepository.js";
-import { NaoEncontradoErro } from "../../errors.js";
+import { NaoEncontradoErro } from "../../domain/errors/errors.js";
 import { AstronautMapper } from "../mappers/AstronautMapper.js";
-// Isso representa exatamente as colunas da sua tabela no Postgres
+
 export class PostgresAstronautRepository implements AstronautRepository {
     async find(params: Query): Promise<AstronautsResult> {
         const { page, limit, offset } = resolvePagination({ page: params.page, limit: params.limit, maxLimit: 50 });
@@ -32,7 +32,7 @@ export class PostgresAstronautRepository implements AstronautRepository {
             [...values, limit, offset]
         );
 
-        const astronauts = dataResult.rows.map((row) => {return AstronautMapper.toDomain(row)})
+        const astronauts = dataResult.rows.map((row) => { return AstronautMapper.toDomain(row) })
         return {
             data: astronauts,
             pagination: { total, page, limit, totalPages: totalPages(total, limit) }
@@ -41,22 +41,21 @@ export class PostgresAstronautRepository implements AstronautRepository {
 
     async create(data: Astronaut): Promise<Astronaut> {
         const now = new Date();
-
         const { rows } = await pool.query<AstronautRow>(
-            `INSERT INTO astronauts (name, role, nationality, status, created_at, updated_at)
-     VALUES ($1, $2, $3, 'active', $4, $4)
+            `INSERT INTO astronauts (id,name, role, nationality, status, created_at, updated_at)
+     VALUES ($1, $2, $3,$4, 'active', $5, $5)
      RETURNING *`,
-            [data.props.name, data.props.role, data.props.nationality, now]
+            [data.id.value, data.props.name, data.props.role, data.props.nationality, now]
         );
 
         return AstronautMapper.toDomain(rows[0]);
     }
 
     // TODO: implementar updateAstronaut
-    async update( data: Astronaut,id: number): Promise<Astronaut | null> {
+    async update(data: Astronaut, id: string): Promise<Astronaut | null> {
         // Implemente aqui
         const now = new Date()
-        const updatedData = { ...data, updated_at: now }
+        const updatedData = { ...data.props, updated_at: now }
         const fields = Object.keys(updatedData).map((field, index) => {
             return `${field} = $${index + 2}`
         }).join(", ")
@@ -71,13 +70,13 @@ export class PostgresAstronautRepository implements AstronautRepository {
             [id, ...values]
         )
         if (rows.length <= 0) {
-            throw new NaoEncontradoErro("Astronauta", id)
+            return null
         }
         return AstronautMapper.toDomain(rows[0])
         //throw new Error("Not implemented");
     }
 
-    async findById(id: number) {
+    async findById(id: string): Promise<Astronaut> {
         const { rows } = await pool.query<AstronautRow>(
             `
       SELECT * FROM astronauts WHERE id = $1
@@ -87,10 +86,10 @@ export class PostgresAstronautRepository implements AstronautRepository {
         if (rows.length == 0) {
             throw new NaoEncontradoErro("Astronauta", id)
         }
-        return rows[0]
+        return AstronautMapper.toDomain(rows[0])
     }
     // TODO: implementar softDeleteAstronaut
-    async softDelete(id: number): Promise<boolean> {
+    async softDelete(id: string): Promise<boolean> {
         // Implemente aqui
         const now = new Date()
         const { rows } = await pool.query<AstronautRow>(
@@ -103,7 +102,7 @@ export class PostgresAstronautRepository implements AstronautRepository {
             [now, id]
         )
         if (rows.length <= 0) {
-            throw new NaoEncontradoErro("Astronauta", id)
+           return false
         }
         console.log("passou")
         return true

@@ -13,8 +13,8 @@ export interface AstronautsResult {
 export interface AstronautRepository{
     create(data: Astronaut): Promise<Astronaut>
     find(params: Query): Promise<AstronautsResult> 
-    findById(id: number): Promise<Astronaut>
-    update(data: Astronaut, id: number): Promise<Astronaut | null>
-    softDelete(id: number): Promise<Boolean>
+    findById(id: string): Promise<Astronaut>
+    update(data: Astronaut, id: string): Promise<Astronaut>
+    softDelete(id: string): Promise<Boolean>
 
 }

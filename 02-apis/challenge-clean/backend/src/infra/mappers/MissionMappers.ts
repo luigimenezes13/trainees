@@ -1,23 +1,19 @@
-// src/modules/astronauts/mappers/astronaut.mapper.ts
-import { Mission } from "../../domain/entities/Mission.js";
-import { MissionRow } from "../../database/types.js";
-
+import { Mission } from "../../domain/aggregates/Mission.js";
+import { Identifier } from "../../domain/value-objects/Identifier.js";
+import type { MissionRow } from "../database/types.js";
 
 export class MissionMapper {
-
-  static toDomain(raw: MissionRow): Mission {
-    return new Mission({
-      id: raw.id,
-      AstronautId: raw.astronautId,
-      SupplyId: raw.supplyId
-    });
-  }
-
-  static toPersistence(mission: Mission) {
-    return {
-      id: mission.props.id,
-      AstronautId: mission.props.AstronautId,
-      SupplyId: mission.props.SupplyId
-    };
+  static toDomain(
+    row: MissionRow,
+    astronautIds: string[],
+    supplyIds: string[]
+  ): Mission {
+    return new Mission(
+      {
+        astronautsId: astronautIds.map((id) => new Identifier(id)),
+        suppliesId: supplyIds.map((id) => new Identifier(id))
+      },
+      row.id
+    );
   }
 }

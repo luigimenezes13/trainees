@@ -1,9 +1,10 @@
+import { Entity } from "../value-objects/Entity.js"
+import { Identifier } from "../value-objects/Identifier.js"
 
-type AstronautProps = {
-    id?: Number
-    name: String,
-    role: String,
-    nationality: String,
+export type AstronautProps = {
+    name: string,
+    role: string,
+    nationality: string,
     status: 'active' | 'inactive',
     created_at?: Date,
     updated_at?: Date,
@@ -11,6 +12,8 @@ type AstronautProps = {
 
 }
 
-export  class Astronaut {
-    constructor(public props: AstronautProps){}
+export  class Astronaut extends Entity<AstronautProps> {
+    constructor(props: AstronautProps,id?: string){
+        super(props,id)
+    }
 }

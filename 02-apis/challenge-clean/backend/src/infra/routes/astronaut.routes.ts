@@ -1,14 +1,16 @@
 import type { FastifyInstance, FastifyRequest } from "fastify";
 import { ZodError } from "zod";
-import { createAstronaut, findAstronauts, softDeleteAstronaut, updateAstronaut } from "./astronaut.repository.js";
-import { astronautId, createAstronautBody, findAstronautsQuery, updateAstronautBody } from "./astronaut.schema.js";
-import { formatRow, formatZodError } from "../../shared/utils.js";
-import { NaoEncontradoErro } from "../../errors.js";
+import { createAstronautUseCase, getAstronautsUseCase, softDeleteAstronautUseCase, updateAstronautUseCase } from "../di/container.js";
+//import { createAstronaut, findAstronauts, softDeleteAstronaut, updateAstronaut } from "./astronaut.repository.js";
+import { astronautId, createAstronautBody, findAstronautsQuery, updateAstronautBody } from "../schemas/astronaut.schema.js";
+import { formatRow, formatZodError } from "../utils/utils.js";
+import { NaoEncontradoErro } from "../../domain/errors/errors.js";
 
 export async function astronautRoutes(app: FastifyInstance): Promise<void> {
+  
   app.get("/astronauts", async (request, reply) => {
     const query = findAstronautsQuery.parse(request.query);
-    const result = await findAstronauts(query);
+    const result = await getAstronautsUseCase.execute(query);
 
     return reply.status(200).send({
       data: result.data.map(formatRow),
@@ -18,9 +20,9 @@ export async function astronautRoutes(app: FastifyInstance): Promise<void> {
 
   app.post("/astronauts", async (request, reply) => {
     const body = createAstronautBody.parse(request.body);
-    const created = await createAstronaut(body);
+    const created = await createAstronautUseCase.execute(body);
 
-    return reply.status(201).send(formatRow(created));
+    return reply.status(201).send(created);
   });
 
   app.put("/astronauts/:id", async (request, reply) => {
@@ -30,14 +32,11 @@ export async function astronautRoutes(app: FastifyInstance): Promise<void> {
     // 3. Chamar updateAstronaut do repository
     // 4. Retornar 200 com o astronauta atualizado (formatRow)
     // 5. Retornar 404 se nao encontrar
-    const id = astronautId.parse(request.params.id)
+    const id = astronautId.parse(request.params.id )
     const body = updateAstronautBody.parse(request.body)
-    try{
-      const updated = await updateAstronaut(id,body)
+      const updated = await updateAstronautUseCase.execute(body,id)
       return reply.status(200).send(updated)
-    }catch(error: any){
-      throw error
-    }
+    
 
   });
 
@@ -48,25 +47,13 @@ export async function astronautRoutes(app: FastifyInstance): Promise<void> {
     // 2. Chamar softDeleteAstronaut do repository
     // 3. Retornar 204 se deletou
     const id = astronautId.parse(request.params.id)
-
-    try{
-      const astronaut = await softDeleteAstronaut(id)
-      return reply.status(204).send()
-    }catch(error: any){
-      throw error
-    }
+    const isDeleted = await softDeleteAstronautUseCase.execute(id)
+    return reply.status(204).send()
+  
     
     // 4. Retornar 404 se nao encontrar
 
   });
+  
 
-  app.setErrorHandler((error, _request, reply) => {
-    if (error instanceof ZodError) {
-      return reply.status(400).send(formatZodError(error));
-    }
-    if(error instanceof NaoEncontradoErro){
-      reply.status(404).send({ error: error.message });
-    }
-      reply.status(500).send({ error: "Internal server error" });
-  });
 }
