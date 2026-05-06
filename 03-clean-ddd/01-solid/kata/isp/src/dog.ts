@@ -1,14 +1,13 @@
-import Animal from './animal';
+import {Runnable, Barkable, Animal} from './animal';
 
-class Dog implements Animal {
-  public fly(): void {}
+class Dog extends Animal implements Runnable, Barkable {
 
   public run(): void {
-    console.log('Dog is running');
+    console.log(`${this.animal} is running`);
   }
 
   public bark(): void {
-    console.log('Dog is barking');
+    console.log(`${this.animal} is barking`);
   }
 }
 

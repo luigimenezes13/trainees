@@ -4,6 +4,7 @@ import Clock from '../src/clock';
 import BirthdayGreeter from '../src/birthday-greeter';
 import Employee from '../src/employee';
 import EmployeeBuilder from './employee-builder';
+import EmailSender from '../src/email-sender';
 
 describe('birthday greeter', () => {
   const CURRENT_MONTH: number = 7;
@@ -29,8 +30,9 @@ describe('birthday greeter', () => {
     clock = { monthDay: (): MonthDay => TODAY };
 
     fakeConsoleLog = jest.spyOn(console, 'log').mockImplementation();
+    const emailSender = new EmailSender
 
-    birthdayGreeter = new BirthdayGreeter(employeeRepository, clock);
+    birthdayGreeter = new BirthdayGreeter(employeeRepository, clock, emailSender );
   });
 
   afterAll(() => {

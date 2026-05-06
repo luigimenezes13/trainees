@@ -1,7 +1,7 @@
 import Dog from '../src/dog';
 
 describe('dog', () => {
-  const dog: Dog = new Dog();
+  const dog: Dog = new Dog("Dog");
   let fakeConsoleLog: jest.SpyInstance;
 
   beforeEach(() => {
@@ -22,5 +22,11 @@ describe('dog', () => {
     dog.bark();
 
     expect(console.log).toBeCalledWith('Dog is barking');
+  });
+
+  it('should know it name', () => {
+    dog.about();
+
+    expect(console.log).toBeCalledWith('Cara, isso claramente é um Dog');
   });
 });

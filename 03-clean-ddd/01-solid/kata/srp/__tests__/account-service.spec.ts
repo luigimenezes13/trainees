@@ -2,6 +2,7 @@ import Transaction from '../src/transaction';
 import AccountService from '../src/account-service';
 import Clock from '../src/clock';
 import Console from '../src/console';
+import { StatementPrinter } from '../src/statement-printer';
 import TransactionRepository from '../src/transaction-repository';
 
 describe('account service', () => {
@@ -16,8 +17,9 @@ describe('account service', () => {
 
   let clock: Clock;
   let transactionRepository: TransactionRepository;
-  let console: Console;
   let accountService: AccountService;
+  let statementPrinter: StatementPrinter;
+  let output: Console;
 
   beforeEach(() => {
     clock = { today: (): Date => TODAY };
@@ -27,9 +29,14 @@ describe('account service', () => {
       all: (): Transaction[] => TRANSACTIONS
     };
 
-    console = { printLine: jest.fn() };
+    output = { printLine: jest.fn() };
 
-    accountService = new AccountService(transactionRepository, clock, console);
+    statementPrinter = new StatementPrinter(output);
+    accountService = new AccountService(
+      transactionRepository,
+      statementPrinter,
+      clock
+    );
   });
 
   it('should deposit ammount into the account', () => {
@@ -51,14 +58,14 @@ describe('account service', () => {
   it('should print statement', () => {
     accountService.printStatement();
 
-    expect(console.printLine).toHaveBeenCalledWith('DATE | AMOUNT | BALANCE');
-    expect(console.printLine).toHaveBeenCalledWith(
+    expect(output.printLine).toHaveBeenCalledWith('DATE | AMOUNT | BALANCE');
+    expect(output.printLine).toHaveBeenCalledWith(
       '1/6/2014 | 1000.00 | 1000.00'
     );
-    expect(console.printLine).toHaveBeenCalledWith(
+    expect(output.printLine).toHaveBeenCalledWith(
       '2/6/2014 | -100.00 | 900.00'
     );
-    expect(console.printLine).toHaveBeenCalledWith(
+    expect(output.printLine).toHaveBeenCalledWith(
       '10/6/2014 | 500.00 | 1400.00'
     );
   });

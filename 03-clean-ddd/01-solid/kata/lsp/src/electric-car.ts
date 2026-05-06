@@ -2,13 +2,9 @@ import Vehicle from './vehicle';
 
 class ElectricCar extends Vehicle {
   private BATTERY_FULL: number = 100;
-  private batteryLevel: number;
+  private batteryLevel: number = 0;
 
-  public fillUpWithFuel(): void {
-    throw new Error("It's an electric car");
-  }
-
-  public chargeBattery(): void {
+  public completeEnergy(): void {
     this.batteryLevel = this.BATTERY_FULL;
   }
 

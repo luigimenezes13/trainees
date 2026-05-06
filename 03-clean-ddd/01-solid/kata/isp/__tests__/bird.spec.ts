@@ -1,7 +1,7 @@
 import Bird from '../src/bird';
 
 describe('bird', () => {
-  const bird: Bird = new Bird();
+  const bird: Bird = new Bird("Bird");
   let fakeConsoleLog: jest.SpyInstance;
 
   beforeEach(() => {
@@ -21,6 +21,12 @@ describe('bird', () => {
   it('should fly', () => {
     bird.fly();
 
-    expect(console.log).toBeCalledWith('Bird is running');
+    expect(console.log).toBeCalledWith('Bird is flying');
+  });
+
+  it('should know it name', () => {
+    bird.about();
+
+    expect(console.log).toBeCalledWith('Cara, isso claramente é um Bird');
   });
 });

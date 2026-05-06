@@ -8,10 +8,12 @@ import EmailSender from './email-sender';
 class BirthdayGreeter {
   private employeeRepository: EmployeeRepository;
   private clock: Clock;
+  private emailSender: EmailSender
 
-  constructor(employeeRepository: EmployeeRepository, clock: Clock) {
+  constructor(employeeRepository: EmployeeRepository, clock: Clock, emailSender: EmailSender) {
     this.employeeRepository = employeeRepository;
     this.clock = clock;
+    this.emailSender = emailSender
   }
 
   public sendGreetings(): void {
@@ -19,7 +21,7 @@ class BirthdayGreeter {
     this.employeeRepository
       .findEmployeesBornOn(today)
       .map(employee => this.emailFor(employee))
-      .forEach(email => new EmailSender().send(email));
+      .forEach(email => this.emailSender.send(email));
   }
 
   private emailFor(employee: Employee): Email {

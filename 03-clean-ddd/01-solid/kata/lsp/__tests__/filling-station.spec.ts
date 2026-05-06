@@ -9,7 +9,7 @@ describe('filling station', () => {
   it('should refuel a petrol car', () => {
     const car: PetrolCar = new PetrolCar();
 
-    fillingStation.refuel(car);
+    fillingStation.refuelEnergy(car);
 
     expect(car.getFuelTankLevel()).toEqual(FULL);
   });
@@ -17,19 +17,19 @@ describe('filling station', () => {
   it('should not fail refueling an electric car', () => {
     const car: ElectricCar = new ElectricCar();
 
-    expect(() => fillingStation.refuel(car)).not.toThrow();
+    expect(() => fillingStation.refuelEnergy(car)).not.toThrow();
   });
 
   it('should recharge an electric car', () => {
     const car: ElectricCar = new ElectricCar();
 
-    fillingStation.charge(car);
+    fillingStation.refuelEnergy(car);
 
     expect(car.getBatteryLevel()).toEqual(FULL);
   });
 
   it('should not fail recharging a petrol car', () => {
     const car: PetrolCar = new PetrolCar();
-    expect(() => fillingStation.charge(car)).not.toThrow();
+    expect(() => fillingStation.refuelEnergy(car)).not.toThrow();
   });
 });
