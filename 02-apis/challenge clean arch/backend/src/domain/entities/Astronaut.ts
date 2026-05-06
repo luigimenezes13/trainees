@@ -1,11 +1,13 @@
 import { Entity } from "../value-objects/Entity.js";
-import { Identifier } from "../value-objects/Identifier.js";
+
+export type AstronautStatus = "active" | "inactive";
+
 
 export type AstronautProps = {
-    name: string,
-    role: string,
-    nationality: string,
-    status: 'active' | 'inactive',
+    name?: string,
+    role?: string,
+    nationality?: string,
+    status?: AstronautStatus,
     created_at?: Date,
     updated_at?: Date,
     deleted_at?: Date | null,

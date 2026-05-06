@@ -1,5 +1,5 @@
-export class Error404 extends Error{
-    constructor(recurso: string, identificador: string | number){
+export class NotFound extends Error{
+    constructor(identificador: string | number, recurso: string){
         super(`ERROR: ${identificador} não encontrado em ${recurso}`)
         this.name = "Error404"
     }

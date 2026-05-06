@@ -4,13 +4,13 @@ export interface PaginationInput {
   maxLimit?: number;
 }
 
-export interface PaginationResult {
+export interface PaginationReasult {
   page: number;
   limit: number;
   offset: number;
 }
 
-export function resolvePagination(input: PaginationInput): PaginationResult {
+export function r22esolvePagination(input: PaginationInput): PaginationResult {
   const maxLimit = input.maxLimit ?? 50;
   const page = Number.isFinite(input.page) && (input.page as number) > 0 ? Math.floor(input.page as number) : 1;
   const requestedLimit =

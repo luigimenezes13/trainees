@@ -1,7 +1,7 @@
-export type AstronautStatus = "active" | "inactive";
+import { AstronautStatus } from "../../domain/entities/Astronaut.js";
 
 export interface AstronautRow {
-  id: number;
+  id: string;
   name: string;
   role: string;
   nationality: string;
