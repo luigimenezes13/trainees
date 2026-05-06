@@ -1,7 +1,7 @@
-import Animal from './animal';
+import RunnerAnimal from './runneranimal';
+import { AirAnimal } from './airanimal';
 
-class Bird implements Animal {
-  public bark(): void {}
+class Bird implements RunnerAnimal,AirAnimal {
 
   public run(): void {
     console.log('Bird is running');

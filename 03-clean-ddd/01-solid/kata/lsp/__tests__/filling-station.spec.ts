@@ -6,30 +6,30 @@ describe('filling station', () => {
   const FULL: number = 100;
   const fillingStation: FillingStation = new FillingStation();
 
-  it('should refuel a petrol car', () => {
+  it('should fill a petrol car', () => {
     const car: PetrolCar = new PetrolCar();
 
-    fillingStation.refuel(car);
+    fillingStation.fill(car);
 
     expect(car.getFuelTankLevel()).toEqual(FULL);
   });
 
-  it('should not fail refueling an electric car', () => {
+  it('should not fail filling an electric car', () => {
     const car: ElectricCar = new ElectricCar();
 
-    expect(() => fillingStation.refuel(car)).not.toThrow();
+    expect(() => fillingStation.fill(car)).not.toThrow();
   });
 
-  it('should recharge an electric car', () => {
+  it('should refill an electric car', () => {
     const car: ElectricCar = new ElectricCar();
 
-    fillingStation.charge(car);
+    fillingStation.fill(car);
 
     expect(car.getBatteryLevel()).toEqual(FULL);
   });
 
   it('should not fail recharging a petrol car', () => {
     const car: PetrolCar = new PetrolCar();
-    expect(() => fillingStation.charge(car)).not.toThrow();
+    expect(() => fillingStation.fill(car)).not.toThrow();
   });
 });

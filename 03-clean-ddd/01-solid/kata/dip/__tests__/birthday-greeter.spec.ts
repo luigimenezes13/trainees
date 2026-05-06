@@ -4,6 +4,7 @@ import Clock from '../src/clock';
 import BirthdayGreeter from '../src/birthday-greeter';
 import Employee from '../src/employee';
 import EmployeeBuilder from './employee-builder';
+import EmailSender from '../src/email-sender';
 
 describe('birthday greeter', () => {
   const CURRENT_MONTH: number = 7;
@@ -15,6 +16,7 @@ describe('birthday greeter', () => {
   let clock: Clock;
   let fakeConsoleLog: jest.SpyInstance;
   let birthdayGreeter: BirthdayGreeter;
+  let sender: EmailSender
 
   beforeEach(() => {
     employeeRepository = {
@@ -25,12 +27,12 @@ describe('birthday greeter', () => {
         return isToday ? [employee] : [];
       }
     };
-
+    sender = new EmailSender()
     clock = { monthDay: (): MonthDay => TODAY };
 
     fakeConsoleLog = jest.spyOn(console, 'log').mockImplementation();
 
-    birthdayGreeter = new BirthdayGreeter(employeeRepository, clock);
+    birthdayGreeter = new BirthdayGreeter(employeeRepository, clock, sender);
   });
 
   afterAll(() => {

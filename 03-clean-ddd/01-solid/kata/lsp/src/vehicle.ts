@@ -13,9 +13,11 @@ abstract class Vehicle {
     this.engineStarted = false;
   }
 
-  abstract fillUpWithFuel(): void;
+  public abstract fill():void
 
-  abstract chargeBattery(): void;
+  //abstract fillUpWithFuel(): void;
+
+  //abstract chargeBattery(): void;
 }
 
 export default Vehicle;
