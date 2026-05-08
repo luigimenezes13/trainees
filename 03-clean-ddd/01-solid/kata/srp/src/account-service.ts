@@ -2,25 +2,25 @@ import TransactionRepository from './transaction-repository';
 import Clock from './clock';
 import Console from './console';
 import Transaction from './transaction';
-import { Printer } from './printer';
+import { StatementPrinter } from './statement-printer';
 
 class AccountService {
   //private STATEMENT_HEADER: string = 'DATE | AMOUNT | BALANCE';
 
   private transactionRepository: TransactionRepository;
   private clock: Clock;
-  private printer: Printer
+  private statementPrinter: StatementPrinter
   //private console: Console;
 
   constructor(
     transactionRepository: TransactionRepository,
     clock: Clock,
-    printer: Printer
+    statementPrinter: StatementPrinter
     
   ) {
     this.transactionRepository = transactionRepository;
     this.clock = clock;
-    this.printer = printer
+    this.statementPrinter = statementPrinter
     //this.console = console;
   }
 
@@ -47,7 +47,7 @@ class AccountService {
   
   public printStatement() {
     const transactions: Transaction[] = this.transactionRepository.all();
-    this.printer.printStatement(transactions)
+    this.statementPrinter.printStatement(transactions)
   }
 
   

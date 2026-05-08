@@ -2,7 +2,7 @@
 
 import Transaction from "./transaction";
 import Console from "./console";
-export class Printer {
+export class StatementPrinter {
 
 
     private console: Console
